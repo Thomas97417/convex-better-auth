@@ -39,12 +39,6 @@ bun dev
 Open [http://localhost:3001](http://localhost:3001) in your browser to see the web application.
 Your app will connect to the Convex cloud backend automatically.
 
-
-
-
-
-
-
 ## Project Structure
 
 ```
@@ -62,3 +56,20 @@ convex-better-auth/
 - `bun dev:web`: Start only the web application
 - `bun dev:setup`: Setup and configure your Convex project
 - `bun check-types`: Check TypeScript types across all apps
+
+## Accéder au tableau de bord Convex
+
+Pour visualiser, gérer et surveiller vos fonctions et votre base de données Convex en temps réel, lancez le tableau de bord Convex avec la commande suivante :
+
+```bash
+bunx convex dashboard
+```
+
+Cela ouvrira une interface web où vous pourrez :
+
+- Voir l’état de vos déploiements
+- Explorer et modifier les données stockées dans Convex
+- Exécuter ou tester des fonctions backend à la volée
+- Accéder aux logs et à l’historique des fonctions
+
+> 💡 **Astuce :** Le tableau de bord nécessite d’être connecté à votre compte Convex. Suivez les instructions à l’écran si une authentification est requise.
