@@ -10,19 +10,16 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TodosRouteImport } from './routes/todos'
-import { Route as TestRouteImport } from './routes/test'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ArticlesRouteImport } from './routes/articles'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as TestTestIdRouteImport } from './routes/test/$testId'
+import { Route as ArticlesIndexRouteImport } from './routes/articles/index'
+import { Route as ArticlesCreateRouteImport } from './routes/articles/create'
+import { Route as ArticlesArticleIdRouteImport } from './routes/articles/$articleId'
 
 const TodosRoute = TodosRouteImport.update({
   id: '/todos',
   path: '/todos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TestRoute = TestRouteImport.update({
-  id: '/test',
-  path: '/test',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -30,51 +27,92 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArticlesRoute = ArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TestTestIdRoute = TestTestIdRouteImport.update({
-  id: '/$testId',
-  path: '/$testId',
-  getParentRoute: () => TestRoute,
+const ArticlesIndexRoute = ArticlesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ArticlesRoute,
+} as any)
+const ArticlesCreateRoute = ArticlesCreateRouteImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => ArticlesRoute,
+} as any)
+const ArticlesArticleIdRoute = ArticlesArticleIdRouteImport.update({
+  id: '/$articleId',
+  path: '/$articleId',
+  getParentRoute: () => ArticlesRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/articles': typeof ArticlesRouteWithChildren
   '/dashboard': typeof DashboardRoute
-  '/test': typeof TestRouteWithChildren
   '/todos': typeof TodosRoute
-  '/test/$testId': typeof TestTestIdRoute
+  '/articles/$articleId': typeof ArticlesArticleIdRoute
+  '/articles/create': typeof ArticlesCreateRoute
+  '/articles/': typeof ArticlesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
-  '/test': typeof TestRouteWithChildren
   '/todos': typeof TodosRoute
-  '/test/$testId': typeof TestTestIdRoute
+  '/articles/$articleId': typeof ArticlesArticleIdRoute
+  '/articles/create': typeof ArticlesCreateRoute
+  '/articles': typeof ArticlesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/articles': typeof ArticlesRouteWithChildren
   '/dashboard': typeof DashboardRoute
-  '/test': typeof TestRouteWithChildren
   '/todos': typeof TodosRoute
-  '/test/$testId': typeof TestTestIdRoute
+  '/articles/$articleId': typeof ArticlesArticleIdRoute
+  '/articles/create': typeof ArticlesCreateRoute
+  '/articles/': typeof ArticlesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/test' | '/todos' | '/test/$testId'
+  fullPaths:
+    | '/'
+    | '/articles'
+    | '/dashboard'
+    | '/todos'
+    | '/articles/$articleId'
+    | '/articles/create'
+    | '/articles/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/test' | '/todos' | '/test/$testId'
-  id: '__root__' | '/' | '/dashboard' | '/test' | '/todos' | '/test/$testId'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/todos'
+    | '/articles/$articleId'
+    | '/articles/create'
+    | '/articles'
+  id:
+    | '__root__'
+    | '/'
+    | '/articles'
+    | '/dashboard'
+    | '/todos'
+    | '/articles/$articleId'
+    | '/articles/create'
+    | '/articles/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ArticlesRoute: typeof ArticlesRouteWithChildren
   DashboardRoute: typeof DashboardRoute
-  TestRoute: typeof TestRouteWithChildren
   TodosRoute: typeof TodosRoute
 }
 
@@ -87,18 +125,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TodosRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/test': {
-      id: '/test'
-      path: '/test'
-      fullPath: '/test'
-      preLoaderRoute: typeof TestRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles': {
+      id: '/articles'
+      path: '/articles'
+      fullPath: '/articles'
+      preLoaderRoute: typeof ArticlesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -108,30 +146,50 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/test/$testId': {
-      id: '/test/$testId'
-      path: '/$testId'
-      fullPath: '/test/$testId'
-      preLoaderRoute: typeof TestTestIdRouteImport
-      parentRoute: typeof TestRoute
+    '/articles/': {
+      id: '/articles/'
+      path: '/'
+      fullPath: '/articles/'
+      preLoaderRoute: typeof ArticlesIndexRouteImport
+      parentRoute: typeof ArticlesRoute
+    }
+    '/articles/create': {
+      id: '/articles/create'
+      path: '/create'
+      fullPath: '/articles/create'
+      preLoaderRoute: typeof ArticlesCreateRouteImport
+      parentRoute: typeof ArticlesRoute
+    }
+    '/articles/$articleId': {
+      id: '/articles/$articleId'
+      path: '/$articleId'
+      fullPath: '/articles/$articleId'
+      preLoaderRoute: typeof ArticlesArticleIdRouteImport
+      parentRoute: typeof ArticlesRoute
     }
   }
 }
 
-interface TestRouteChildren {
-  TestTestIdRoute: typeof TestTestIdRoute
+interface ArticlesRouteChildren {
+  ArticlesArticleIdRoute: typeof ArticlesArticleIdRoute
+  ArticlesCreateRoute: typeof ArticlesCreateRoute
+  ArticlesIndexRoute: typeof ArticlesIndexRoute
 }
 
-const TestRouteChildren: TestRouteChildren = {
-  TestTestIdRoute: TestTestIdRoute,
+const ArticlesRouteChildren: ArticlesRouteChildren = {
+  ArticlesArticleIdRoute: ArticlesArticleIdRoute,
+  ArticlesCreateRoute: ArticlesCreateRoute,
+  ArticlesIndexRoute: ArticlesIndexRoute,
 }
 
-const TestRouteWithChildren = TestRoute._addFileChildren(TestRouteChildren)
+const ArticlesRouteWithChildren = ArticlesRoute._addFileChildren(
+  ArticlesRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ArticlesRoute: ArticlesRouteWithChildren,
   DashboardRoute: DashboardRoute,
-  TestRoute: TestRouteWithChildren,
   TodosRoute: TodosRoute,
 }
 export const routeTree = rootRouteImport

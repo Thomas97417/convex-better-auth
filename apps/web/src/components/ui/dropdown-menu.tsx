@@ -13,8 +13,32 @@ function DropdownMenuPortal({ ...props }: MenuPrimitive.Portal.Props) {
   return <MenuPrimitive.Portal data-slot="dropdown-menu-portal" {...props} />;
 }
 
-function DropdownMenuTrigger({ ...props }: MenuPrimitive.Trigger.Props) {
-  return <MenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props} />;
+function DropdownMenuTrigger({
+  children,
+  ...props
+}: MenuPrimitive.Trigger.Props) {
+  // Si l'enfant est un élément React, on utilise render pour fusionner les props
+  if (React.isValidElement(children)) {
+    return (
+      <MenuPrimitive.Trigger
+        data-slot="dropdown-menu-trigger"
+        render={(triggerProps) =>
+          React.cloneElement(children, {
+            ...triggerProps,
+            ...children.props,
+          } as any)
+        }
+        {...props}
+      />
+    );
+  }
+
+  // Sinon, comportement par défaut
+  return (
+    <MenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props}>
+      {children}
+    </MenuPrimitive.Trigger>
+  );
 }
 
 function DropdownMenuContent({
