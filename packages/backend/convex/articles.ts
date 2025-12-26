@@ -7,6 +7,13 @@ export const getAll = query({
   },
 });
 
+export const getById = query({
+  args: { id: v.id("articles") },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.id);
+  },
+});
+
 export const create = mutation({
   args: {
     title: v.string(),
